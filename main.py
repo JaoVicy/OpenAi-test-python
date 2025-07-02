@@ -1,9 +1,18 @@
-from openai import OpenAI
-client = OpenAI()
+import os
+from dotenv import load_dotenv
 
-response = client.responses.create(
-    model="gpt-4.1",
-    input="Write a one-sentence bedtime story about a unicorn."
+load_dotenv()
+OPENAI_KEY = os.getenv("OPENAI_API_KEY")
+
+from openai import OpenAI
+
+client = OpenAI(api_key = OPENAI_KEY)
+completion = client.chat.completions.create(
+  model="gpt-3.5-turbo",
+  messages=[
+    {"role": "developer", "content": "You are a helpful assistant."},
+    {"role": "user", "content": "Hello!"}
+  ]
 )
 
-print(response.output_text)
+print(completion.choices[0].message)
